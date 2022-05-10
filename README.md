@@ -1,5 +1,5 @@
 # sdte-final
-* รายละเอียดการออกแบบ อยู่ใน Wiki\
+* รายละเอียดการออกแบบ Userflow
  [การออบแบบ และ test](https://github.com/Pornteera0504/sdte-final/wiki)
-* การแตก task\
+* Project management tools
  [Trello](https://trello.com/b/MaqjmCDr/final-exam-pornteera)
