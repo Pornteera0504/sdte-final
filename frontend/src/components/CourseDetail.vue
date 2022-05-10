@@ -19,18 +19,14 @@
         />
       </v-col>
     </v-row>
-    <History :tasks="selectedTask" />
   </div>
 </template>
 <script>
-import History from "@/components/History.vue";
 import axios from "@/plugins/axios";
 
 export default {
   name: "Landing",
-  components: {
-    History,
-  },
+
   data() {
     return {
       cards: [],
