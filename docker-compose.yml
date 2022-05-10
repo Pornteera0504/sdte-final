@@ -26,15 +26,17 @@ services:
       command: --default-authentication-plugin=mysql_native_password
       restart: always
       environment:
-        MYSQL_USER: root
+        MYSQL_USER: host
         MYSQL_ROOT_PASSWORD: Neem05
-        MYSQL_DATABASE: cloud
+        MYSQL_DATABASE: sdte
+      # volumes:
+      #   - datadir:/var/lib/mysql
 
     adminer:
       image: adminer
       restart: always
       ports:
-        - 8088:8080
+        - 8080:8080
 
     # nginx:
     #   container_name: nginx
