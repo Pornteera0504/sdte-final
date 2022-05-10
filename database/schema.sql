@@ -1,15 +1,15 @@
 create table users (
-userID int AUTO_INCREMENT PRIMARY KEY,
-userName varchar(50),
+id int AUTO_INCREMENT PRIMARY KEY,
 email varchar(50),
-image varchar(255),
-status enum('online', 'offline'),
-password varchar(100)
+password varchar(100),
+userID varchar(13)
 );
-create table categories (
+
+create table courses (
 categoryID int AUTO_INCREMENT PRIMARY KEY,
 name varchar(50),
 definition varchar(255)
+
 );
 create table tasks (
 taskID int AUTO_INCREMENT PRIMARY KEY,
