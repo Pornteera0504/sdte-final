@@ -1,0 +1,48 @@
+version: '3.9'
+services:
+    final-backend:
+        container_name: final-backend
+        restart: always
+        build: ./backend/
+        ports:
+            - '3030:3030'
+        environment:
+            TZ: Asia/Bangkok
+        depends_on:
+            - mysql
+
+    final-frontend:
+        container_name: final-frontend
+        restart: always
+        build: ./frontend/
+        ports:
+            - '8000:80'
+        environment:
+            TZ: Asia/Bangkok
+    
+    mysql:
+      container_name: mysql
+      image: mysql
+      command: --default-authentication-plugin=mysql_native_password
+      restart: always
+      environment:
+        MYSQL_USER: root
+        MYSQL_ROOT_PASSWORD: Neem05
+        MYSQL_DATABASE: cloud
+
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8088:8080
+
+    # nginx:
+    #   container_name: nginx
+    #   image: nginx
+    #   volumes:
+    #      - ./templates:/etc/nginx/templates
+    #   ports:
+    #      - "8080:80"
+    #   environment:
+    #      - NGINX_HOST=foobar.com
+    #      - NGINX_PORT=80

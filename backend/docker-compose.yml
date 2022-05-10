@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+    final-backend:
+        container_name: final-backend
+        restart: always
+        build: .
+        ports:
+            - '3030:3030'
+        environment:
+            TZ: Asia/Bangkok
+            # MYSQL_SYSTEM: MySQL
+            # MYSQL_USER: admin
+            # MYSQL_ROOT_PASSWORD: Neem05
+            # MYSQL_DATABASE: cloud
+
+    mysql:
+      container_name: mysql
+      image: mysql
+      command: --default-authentication-plugin=mysql_native_password
+      restart: always
+      environment:
+        MYSQL_USER: host
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_DATABASE: cloud
+      volumes:
+        - datadir:/var/lib/mysql
+
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8080:8080
