@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone repo') {
+            steps {
+                git branch: 'main', credentialsId: '', url: 'https://github.com/Pornteera0504/sdte-final.git'
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                sh 'yarn install'
+                sh 'yarn install:backend'
+            }
+        }
+        stage('Run unit test') {
+            steps {
+                sh 'yarn test:back:unit'
+            }
+        }
+        stage('Report unit test result') {
+            steps {
+                junit 'backend/__test__/unit/unit-test-result.xml'
+            }
+        }
+        stage('Create env files for development') {
+            steps {
+                {
+                    writeFile file: './backend/.env.development', text: '''
+                    PORT=3030
+                    DBhost=localhost
+                    DBuser=root
+                    DBpassword=Neem05
+                    DBname=sdte
+                    '''
+                }
+            }
+        }
+        stage('Run component test for development') {
+            steps {
+                sh 'yarn test:back:comp'
+            }
+        }
+        stage('Report component test result') {
+            steps {
+                junit 'backend/__test__/component/component-test-result.xml'
+            }
+        }
+    }
+}

@@ -2,7 +2,6 @@ const { pool } = require("../utilities/databaseConfig")
 
 const courses = async (req, res) => {
   try {
-    console.log('dsdasda')
     const conn = await pool.getConnection()
     await conn.beginTransaction()
 

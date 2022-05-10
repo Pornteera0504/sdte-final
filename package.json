@@ -9,9 +9,13 @@
         "frontend": "cd frontend && yarn serve",
         "backend": "cd backend && yarn dev",
         "install:backend": "cd backend && yarn install",
-        "install:frontend": "cd frontend && yarn install"
+        "install:frontend": "cd frontend && yarn install",
+        "test:back:unit": "cd backend && yarn test:unit",
+        "test:back:comp": "cd backend && yarn test:comp",
+        "test:back:e2e": "cd backend && yarn test:e2e"
     },
     "dependencies": {
+        "jest": "^28.1.0",
         "vuetify": "^2.6.4"
     },
     "devDependencies": {

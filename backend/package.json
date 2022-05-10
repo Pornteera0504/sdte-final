@@ -13,6 +13,9 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "test:unit": "jest /unit/ --coverage --config ./__test__/unit/jest.config.js",
+    "test:comp": "jest /component/ --coverage --config ./__test__/component/jest.config.js",
+    "test:e2e": "jest /e2e/ --coverage --config ./__test__/e2e/jest.config.js"
   }
 }
