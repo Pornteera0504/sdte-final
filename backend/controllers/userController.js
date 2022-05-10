@@ -6,21 +6,10 @@ const passwordValidator = (value, helpers) => {
   if (value.length < 8) {
     throw new Joi.ValidationError("Password must contain at least 8 characters")
   }
-  if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
-    throw new Joi.ValidationError("Password must be harder")
-  }
-  return value
-}
-const userNameValidator = async (value, helpers) => {
-  const [rows, _] = await pool.query("SELECT userName FROM users WHERE userName = ?", [value])
-  if (rows.length > 0) {
-    const message = "This user is already taken"
-    throw new Joi.ValidationError(message, { message })
-  }
   return value
 }
 const emailValidator = async (value, helpers) => {
-  const [rows, _] = await pool.query("SELECT userName FROM users WHERE email = ?", [value])
+  const [rows, _] = await pool.query("SELECT * FROM users WHERE email = ?", [value])
   if (rows.length > 0) {
     const message = "This email is already taken"
     throw new Joi.ValidationError(message, { message })
@@ -30,8 +19,8 @@ const emailValidator = async (value, helpers) => {
 const registerSchema = Joi.object({
   email: Joi.string().required().email().external(emailValidator),
   password: Joi.string().required().custom(passwordValidator),
-  userName: Joi.string().required().min(1).external(userNameValidator),
-  image: Joi.string(),
+  userID: Joi.string().required(),
+  nationality: Joi.string().required()
 })
 const registerUser = async (req, res) => {
   try {
@@ -42,13 +31,14 @@ const registerUser = async (req, res) => {
 
   const conn = await pool.getConnection()
   await conn.beginTransaction()
-  const userName = req.body.userName
+  const nationality = req.body.nationality
+  const userID = req.body.userID
   const password = await bcrypt.hash(req.body.password, 10)
   const email = req.body.email
 
   try {
-    const querySql = "INSERT INTO users(userName, email, status, password) VALUES (?, ?, ?, ?)"
-    await conn.query(querySql, [userName, email, "offline", password])
+    const querySql = "INSERT INTO users(userID, email, nationality, password) VALUES (?, ?, ?, ?)"
+    await conn.query(querySql, [userID, email, nationality, password])
     res.status(200).send("Register Success")
 
     await conn.commit()
@@ -88,18 +78,9 @@ const loginUser = async (req, res) => {
     matched = await verifyPassword(password, rows[0].password)
 
     if (rows.length === 1 && matched) {
-      const updateSql = "UPDATE users SET status = ? WHERE userID = ?"
-      await conn.query(updateSql, ["online", rows[0].userID])
-
-      const querySql = "SELECT * FROM users WHERE email = ?"
-      const [resRow, _] = await conn.query(querySql, [email])
-
       res.status(200).json({
-        state: true,
         message: "Login success",
-        userName: resRow[0].userName,
-        userID: resRow[0].userID,
-        status: resRow[0].status,
+        email: resRow[0].email,
       })
     } else if (rows.length === 1) {
       res.status(400).json({ state: false, reason: "Password incorrect" })
@@ -118,33 +99,5 @@ const loginUser = async (req, res) => {
   }
 }
 
-const logoutUser = async (req, res) => {
-  const conn = await pool.getConnection()
-  await conn.beginTransaction()
-  const userName = req.body.userName
 
-  try {
-    const updateSql = "UPDATE users SET status = ? WHERE userName = ?"
-    await conn.query(updateSql, ["offline", userName])
-
-    const querySql = "SELECT * FROM users WHERE userName = ?"
-    const [resRow, _] = await conn.query(querySql, [userName])
-    res.status(200).json({
-      state: true,
-      message: "Logout success",
-      userName: resRow[0].userName,
-      status: resRow[0].status,
-    })
-    await conn.commit()
-    return {}
-  } catch (err) {
-    return res.status(500).json({
-      state: false,
-      reason: "[Logout module] Something went wrong. & Logout failure",
-    })
-  } finally {
-    conn.release()
-  }
-}
-
-module.exports = { registerUser, loginUser, logoutUser }
+module.exports = { registerUser, loginUser }

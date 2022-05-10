@@ -2,24 +2,31 @@ create table users (
 id int AUTO_INCREMENT PRIMARY KEY,
 email varchar(50),
 password varchar(100),
+nationality enum('ไทย', 'อื่นๆ'),
 userID varchar(13)
 );
 
-create table courses (
-categoryID int AUTO_INCREMENT PRIMARY KEY,
-name varchar(50),
-definition varchar(255)
-
+create table projects (
+id int AUTO_INCREMENT PRIMARY KEY,
+project_name varchar(100)
 );
-create table tasks (
-taskID int AUTO_INCREMENT PRIMARY KEY,
-name varchar(50),
+
+create table rounds (
+id int AUTO_INCREMENT PRIMARY KEY,
+round_name varchar(255),
+semester varchar(20)
+);
+
+create table courses (
+id int AUTO_INCREMENT PRIMARY KEY,
+faculty_name varchar(100),
+course varchar(255),
+language enum('หลักสูตรนานาชาติ', 'หลักสูตรไทย'),
+open_due_date varchar(255),
 description TEXT,
-activityDate varchar(20),
-lastEditDate varchar(20),
-userID int NOT NULL,
-categoryID int NOT NULL,
-FOREIGN KEY (userID) REFERENCES users(userID),
-FOREIGN KEY (categoryID) REFERENCES categories(categoryID)
+project int NOT NULL,
+round int NOT NULL,
+FOREIGN KEY (project) REFERENCES projects(id),
+FOREIGN KEY (round) REFERENCES rounds(id)
 ON DELETE CASCADE
 );

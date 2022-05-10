@@ -2,10 +2,10 @@ const mysql = require('mysql2/promise')
 require('dotenv').config({ path: '../.env'})
 
 const pool = mysql.createPool({
-    host: process.env.DBhost || "memote.czmyyf1cpqym.us-east-1.rds.amazonaws.com",
-    user: process.env.DBuser || "admin",
-    password: process.env.DBpassword || "memote_password",
-    database: process.env.DBname || "memote",
+    host: process.env.DBhost || "localhost",
+    user: process.env.DBuser || "root",
+    password: process.env.DBpassword || "Neem05",
+    database: process.env.DBname || "sdte",
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

@@ -1,8 +1,8 @@
 <template>
   <div class="mb-16">
-    <v-row>
+    <v-row class="my-5 mx-5">
       <v-col cols="9">
-        <h1>ผลการค้นหา :saw</h1>
+        <h1>ผลการค้นหา :</h1>
       </v-col>
       <v-col cols="3">
         <v-text-field
@@ -19,18 +19,17 @@
         />
       </v-col>
     </v-row>
-    <CourseDetail/>
+    <History :tasks="selectedTask" />
   </div>
 </template>
 <script>
-import CourseDetail from "@/components/CourseDetail.vue";
+import History from "@/components/History.vue";
 import axios from "@/plugins/axios";
 
 export default {
   name: "Landing",
   components: {
-    CourseDetail,
-    // History,
+    History,
   },
   data() {
     return {

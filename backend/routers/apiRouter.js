@@ -2,10 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 const userRouter = require('./userRouter')
-const landingRouter = require('./landingRouter')
+const courseRouter = require('./courseRouter')
 
 router.use(userRouter)
-router.use(landingRouter)
+router.use(courseRouter)
 
 /// เพื่อดูสถานะการทำ Router ตรงนี้ว่าสำเร็จไหม
 router.use('/server-status', (req, res) => {
