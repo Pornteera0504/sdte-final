@@ -1,0 +1,8 @@
+version: '3.9'
+services:
+    final-frontend:
+      container_name: final-frontend
+      restart: always
+      ports:
+          - '8000:80'
+
